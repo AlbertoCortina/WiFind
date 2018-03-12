@@ -13,6 +13,6 @@ data class Wifi (
         @NotBlank
         val ssid: String = "",
 
-        @OneToMany(mappedBy = "wifi")
-        val intensidades: List<Intensidad> ?= null
+        @NotBlank
+        val nivel: Int = 0
 )

@@ -4,7 +4,7 @@ import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "TAulas")
+@Table(name = "TAula")
 data class Aula (
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)

@@ -5,22 +5,21 @@ import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "TIntensidad")
-data class Intensidad (
+@Table(name = "TRelacion")
+data class Relacion (
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Long = 0,
 
+        val comentario: String = "",
+
         @NotNull
         @ManyToOne
-        @JoinColumn(name = "id_localizacion")
-        val localizacion: Localizacion ?= null,
+        @JoinColumn(name = "id_aula")
+        val aula: Aula ?= null,
 
         @NotNull
         @ManyToOne
         @JoinColumn(name = "id_wifi")
-        val wifi:Wifi ?= null,
-
-        @NotBlank
-        val intensidad: Double = 0.0
+        val wifi:Wifi ?= null
 )
