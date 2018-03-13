@@ -1,11 +1,11 @@
-package com.alberto.Intensidad.controller
+package com.alberto.wifind.controller
 
-import com.alberto.Intensidad.model.Aula
-import com.alberto.Intensidad.model.Relacion
-import com.alberto.Intensidad.model.Wifi
-import com.alberto.Intensidad.repository.AulaRepository
-import com.alberto.Intensidad.repository.RelacionRepository
-import com.alberto.Intensidad.repository.WifiRepository
+import com.alberto.wifind.model.Aula
+import com.alberto.wifind.model.Relacion
+import com.alberto.wifind.model.Wifi
+import com.alberto.wifind.repository.AulaRepository
+import com.alberto.wifind.repository.RelacionRepository
+import com.alberto.wifind.repository.WifiRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.config.annotation.EnableWebMvc

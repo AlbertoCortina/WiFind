@@ -1,6 +1,6 @@
-package com.alberto.Intensidad.repository
+package com.alberto.wifind.repository
 
-import com.alberto.Intensidad.model.Aula
+import com.alberto.wifind.model.Aula
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

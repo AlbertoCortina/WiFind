@@ -4,18 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.alberto</groupId>
-	<artifactId>Intensidad</artifactId>
+	<artifactId>wifind</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Intensidad</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Backend-Wifind</name>
+	<description>Backend de la aplicacion Wifind</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.1.BUILD-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<properties>

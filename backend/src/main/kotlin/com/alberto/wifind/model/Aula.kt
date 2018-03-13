@@ -1,4 +1,4 @@
-package com.alberto.Intensidad.model
+package com.alberto.wifind.model
 
 import javax.persistence.*
 import javax.validation.constraints.NotBlank

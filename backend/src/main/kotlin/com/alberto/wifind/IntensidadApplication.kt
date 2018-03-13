@@ -1,4 +1,4 @@
-package com.alberto.Intensidad
+package com.alberto.wifind
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

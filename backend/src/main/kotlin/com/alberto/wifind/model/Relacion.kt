@@ -1,4 +1,4 @@
-package com.alberto.Intensidad.model
+package com.alberto.wifind.model
 
 import org.jetbrains.annotations.NotNull
 import javax.persistence.*
@@ -16,10 +16,10 @@ data class Relacion (
         @NotNull
         @ManyToOne
         @JoinColumn(name = "id_aula")
-        val aula: Aula ?= null,
+        val aula: Aula?= null,
 
         @NotNull
         @ManyToOne
         @JoinColumn(name = "id_wifi")
-        val wifi:Wifi ?= null
+        val wifi: Wifi?= null
 )
