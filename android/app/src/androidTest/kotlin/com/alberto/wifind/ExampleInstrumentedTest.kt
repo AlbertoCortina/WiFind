@@ -1,4 +1,4 @@
-package com.alberto.intensidad
+package com.alberto.wifind
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

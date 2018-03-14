@@ -55,6 +55,6 @@ class MainController {
      * Método que crear una relacion entre un Aula y un Wifi
      */
     @PostMapping(value = "/relaciones")
-    fun createRelacion(@Valid @RequestBody relacion: Relacion) = relacionRepository.save(relacion)
+    fun createRelacion(@Valid @RequestBody relaciones: List<Relacion>) = relacionRepository.saveAll(relaciones)
 
 }

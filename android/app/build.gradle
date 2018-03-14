@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.alberto.intensidad"
+        applicationId "com.alberto.wifind"
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
@@ -35,4 +35,5 @@ dependencies {
     //Librerias externas
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     compile 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.android.support:design:26.1.0'
 }

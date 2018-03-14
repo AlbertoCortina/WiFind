@@ -1,4 +1,4 @@
-package com.alberto.intensidad
+package com.alberto.wifind
 
 import org.junit.Test
 

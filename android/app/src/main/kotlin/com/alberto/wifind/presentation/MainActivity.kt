@@ -1,4 +1,4 @@
-package com.alberto.intensidad.presentation
+package com.alberto.wifind.presentation
 
 import android.Manifest
 import android.content.BroadcastReceiver
@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.ActivityCompat
@@ -19,9 +18,10 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import com.alberto.intensidad.R
-import com.alberto.intensidad.model.Aula
-import com.alberto.intensidad.model.Wifi
+import com.alberto.wifind.R
+import com.alberto.wifind.model.Aula
+import com.alberto.wifind.model.Wifi
+import com.alberto.wifind.model.Relacion
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -30,11 +30,14 @@ import okhttp3.*
 import java.io.IOException
 import okhttp3.OkHttpClient
 
-class MainActivity : AppCompatActivity(), OnItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
+    var aulaSeleccionada: Aula? = null
+    var comentario: String? = ""
     var listaAulas = ArrayList<Aula>()
     var listaWifisAux = ArrayList<ScanResult>()
     var listaWifis = ArrayList<Wifi>()
+    var listaRelaciones = ArrayList<Relacion>()
     lateinit var wifiManager: WifiManager
 
     val broadcastReceiver = object : BroadcastReceiver() {
@@ -47,6 +50,8 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        getSupportActionBar()?.setIcon(R.mipmap.ic_launcher);
 
         establecerPermisos();
 
@@ -97,6 +102,8 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
                     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinner?.adapter = arrayAdapter;
                 }
+
+                Log.d("RELLENADO SPINNER", listaAulas.toString())
             }
 
             override fun onFailure(call: Call?, e: IOException?) {}
@@ -112,8 +119,6 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
         wifiManager.startScan()
 
         Handler().postDelayed({pararEscaneo()},10000)
-
-        enviarDatos();
     }
 
     /**
@@ -122,24 +127,25 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
     private fun pararEscaneo() {
         unregisterReceiver(broadcastReceiver)
         for (wifi in listaWifisAux) {
-            listaWifis.add(Wifi(null,wifi.SSID, wifi.level))
+            //TODO ScanResult parece que tiene un campo distancia, podría ser interesante
+            listaWifis.add(Wifi(null, wifi.SSID, wifi.level))
         }
-        Log.d("TESTING", listaWifis.toString())
+        Log.d("WIFIS DETECTADAS", listaWifis.toString())
+
+        //Primero insertamos las wifis detectadas en la base de datos
+        insertarWifis()
     }
 
     /**
      * Método para enviar los datos en la base de datos
      */
     private fun enviarDatos() {
-        //Primero insertamos las wifis detectadas en la base de datos
-        insertarWifis()
-
-        //Cogemos que aula es la seleccionada
-
-        //Para cada wifi creamos una relacion con el aula y el comentario
 
     }
 
+    /**
+     * Método que inserta las wifis detectadas
+     */
     private fun insertarWifis() {
         val JSON = MediaType.parse("application/json; charset=utf-8")
         val json = Gson().toJson(listaWifis)
@@ -150,22 +156,49 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call?, response: Response?) {
-                val body = response?.body()?.string()
-                val json = GsonBuilder().create()
-                listaWifis = json.fromJson(body, object: TypeToken<List<Wifi>>() {}.type) as ArrayList<Wifi>
-
-                Log.d("TESTING", "Wifis insertadas")
+               Log.d("WIFIS INSERTADAS", listaWifis.toString())
             }
 
             override fun onFailure(call: Call?, e: IOException?) {}
         })
+
+        //Cogemos que aula es la seleccionada
+        aulaSeleccionada = this.spinner_localizaciones.selectedItem as Aula
+
+        val comentario = this.editText_comentario
+
+        //Para cada wifi creamos una relacion con el aula y el comentario
+        for (wifi in listaWifis) {
+            listaRelaciones.add(Relacion(aulaSeleccionada, wifi, "comentario de prueba"))
+        }
+        insertarRelaciones()
+
+
     }
 
-    override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
-        //Item selecionado
+    /**
+     * Método que inserta las relaciones entre el wifi y el aula
+     */
+    private fun insertarRelaciones() {
+        val JSON = MediaType.parse("application/json; charset=utf-8")
+        val json = Gson().toJson(listaRelaciones)
+        val requestBody = RequestBody.create(JSON,json)
+        val url = "http://192.168.1.104:8080/api/relaciones"
+        val request = Request.Builder().url(url).post(requestBody).build()
+        val client = OkHttpClient()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call?, response: Response?) {
+                Log.d("RELACIONES INSERTADAS", listaRelaciones.toString())
+            }
+
+            override fun onFailure(call: Call?, e: IOException?) {}
+        })
+
+        //Borramos las wifis detectadas y las relaciones
+        listaWifisAux.clear()
+        listaWifis.clear()
+        listaRelaciones.clear()
     }
 
-    override fun onNothingSelected(arg0: AdapterView<*>) {
-        //Si no hay nada seleccionado
-    }
 }

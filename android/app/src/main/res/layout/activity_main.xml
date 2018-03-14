@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.alberto.intensidad.presentation.MainActivity">
+    tools:context="com.alberto.wifind.com.alberto.wifind.presentation.MainActivity">
 
     <TextView
         android:id="@+id/textView_localizacion"
@@ -49,5 +49,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_comentario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Comentario"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/button_enviar_datos"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_localizaciones"
+        app:layout_constraintStart_toStartOf="@+id/spinner_localizaciones"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_localizaciones" />
 
 </android.support.constraint.ConstraintLayout>
