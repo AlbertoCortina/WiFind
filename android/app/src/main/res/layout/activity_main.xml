@@ -13,57 +13,52 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="¿Dónde estás?"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintBottom_toTopOf="@+id/spinner_localizaciones"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_localizaciones"
+        app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="@+id/spinner_localizaciones"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.977" />
 
     <Spinner
         android:id="@+id/spinner_localizaciones"
         android:layout_width="223dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_enviar_datos"
+        android:entries="@array/aulas"
+        app:layout_constraintBottom_toTopOf="@+id/editText_comentario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.539"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.63" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_enviar_datos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
+        android:layout_marginBottom="136dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Enviar datos"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editText_comentario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Comentario"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/button_enviar_datos"
         app:layout_constraintEnd_toEndOf="@+id/spinner_localizaciones"
-        app:layout_constraintStart_toStartOf="@+id/spinner_localizaciones"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_localizaciones" />
+        app:layout_constraintStart_toStartOf="@+id/spinner_localizaciones" />
 
 </android.support.constraint.ConstraintLayout>

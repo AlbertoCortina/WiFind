@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Wifind</string>
+    <string name="app_name">WiFind</string>
+
+    <!--Aulas que se cargan en el spinner-->
+    <string-array name="aulas">
+        <item>A-S-01</item>
+        <item>A-S-02</item>
+    </string-array>
+
 </resources>
