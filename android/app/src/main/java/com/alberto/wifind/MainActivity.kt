@@ -48,14 +48,15 @@ class MainActivity : AppCompatActivity() {
 
         wifiManager = this.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-        this.button_enviar_datos.setOnClickListener{view -> comenzarEscaneo()}
+        // Establecemos el método que se ejecuta al pulsar el botçon "Enviar datos"
+        this.button_enviar_datos.setOnClickListener{_ -> comenzarEscaneo()}
     }
 
     /**
      * Método para comprobar si la aplicación tiene todos los permisos necesarios
      * para ejecutarse.
      */
-    fun establecerPermisos() {
+    private fun establecerPermisos() {
         val permisoUbicacion = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         val permisoEscritura = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val permisoLectura = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -68,52 +69,57 @@ class MainActivity : AppCompatActivity() {
     /**
      * Método para pedir los permisos necesarios para la aplicacion
      */
-    fun peticionPermisos() {
+    private fun peticionPermisos() {
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE), 1)
     }
 
     /**
-     * Método para comenzar a escanear las redes wifis durante 8 segundos (se puede cambiar)
+     * Método para comenzar a escanear las redes wifis durante 8 segundos (se puede cambiar), si se ponen pocos segundos a veces no detecta correctamente
      */
-    fun comenzarEscaneo() {
+    private fun comenzarEscaneo() {
         Log.d("TESTING", "Comienzo de escaneo")
         registerReceiver(broadcastReceiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
 
         wifiManager.startScan()
 
-        Handler().postDelayed({pararEscaneo()},3000)
+        Handler().postDelayed({pararEscaneo()}, 8000)
     }
 
     /**
      * Método para parar el escaneo de las redes wifi
      */
-    fun pararEscaneo() {
+    private fun pararEscaneo() {
         unregisterReceiver(broadcastReceiver)
 
         Log.d("TESTING", "Se para el escaneo, se han detectado:"+listaWifis.toString())
 
+        // Guardamos los datos obtenidos en un fichero
         guardarDatos()
     }
 
     /**
      * Método que recoje todos los datos y los almacena en un fichero
      */
-    fun guardarDatos() {
+    private fun guardarDatos() {
         val aulaSeleccionada = this.spinner_localizaciones.selectedItem as String
         Log.d("TESTING","El aula seleccionada es: $aulaSeleccionada")
 
         val comentario = this.editText_comentario.text.toString()
         Log.d("TESTING","El comentario es: $comentario")
 
+        // Creamos la carpeta datos, si no existe, donde se almacenarán los ficheros creados
         val path = this.filesDir.toString()+"/datos"
         val myDir = File(path)
         if(!myDir.exists()) {
             myDir.mkdirs()
         }
+        
+        // Borramos todos los ficheros que haya en la carpeta "datos" para no ocupar memoria
         for(file in myDir.list()){
             File(myDir, file).delete()
         }
 
+        // Creamos el fichero, si ya existe uno con el mismo nombre lo borra, con los datos
         val file = File(path,"$aulaSeleccionada|$comentario.csv")
         if (file.exists()){
             file.delete()
@@ -143,14 +149,17 @@ class MainActivity : AppCompatActivity() {
      * Esta medición tiene error, ya que se considera que no hay objetos en medio
      * http://rvmiller.com/2013/05/part-1-wifi-based-trilateration-on-android/
      */
-    fun calcularDistancia(level:Double, frequency: Double): Double {
+    private fun calcularDistancia(level:Double, frequency: Double): Double {
         val exp = (27.55 - 20 * Math.log10(frequency) + Math.abs(level)) / 20.0
         return Math.pow(10.0, exp)
     }
 
-    fun enviarCorreo(aulaSeleccionada: String, comentario: String) {
+    /**
+    * Envía un correo electrónico con el fichero de datos adjunto.
+    */
+    private fun enviarCorreo(aulaSeleccionada: String, comentario: String) {
         val TO = arrayOf("albertocortina96@gmail.com") //aquí pon tu correo
-         val emailIntent = Intent(Intent.ACTION_SEND)
+        val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.data = Uri.parse("mailto:")
         emailIntent.type = "text/plain"
 
@@ -171,6 +180,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+// DATOS DE MEDIDA EN DBM PARA ORIENTARME
 //-80 dBm: es la señal mínima aceptable para establecer la conexión; puede ocurrir caídas de enlace.
 //-70 dBm: enlace normal-bajo; es una señal medianamente buena, aunque se pueden sufrir problemas con lluvia y viento.
 //-60 dBm: enlace bueno; ajustando TX y basic rates se puede lograr una conexión estable al 80%.
