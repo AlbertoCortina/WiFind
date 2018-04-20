@@ -1,10 +1,27 @@
 <resources>
     <string name="app_name">WiFind</string>
 
-    <!--Aulas que se cargan en el spinner-->
+    <!--Aulas y laboratorios que se cargan en el spinner-->
     <string-array name="aulas">
+        <item>A-2-01</item>
+        <item>A-2-02</item>
+        <item>A-B-01</item>
+        <item>A-B-02</item>
         <item>A-S-01</item>
         <item>A-S-02</item>
+        <item>L-01</item>
+        <item>L-02</item>
+        <item>L-03</item>
+        <item>L-04</item>
+        <item>L-05</item>
+        <item>L-11</item>
+        <item>L-12</item>
+        <item>L-13</item>
+        <item>L-14</item>
+        <item>L-15</item>
+        <item>L-16</item>
+        <item>L-S-01</item>
+        <item>L-S-02</item>
     </string-array>
 
 </resources>

@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -20,9 +19,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.OutputStreamWriter
 import android.widget.Toast
 import java.io.File
-import java.util.logging.Logger.global
-import android.support.v4.content.FileProvider.getUriForFile
 import android.support.v4.content.FileProvider
+import alberto.wifind.R
 import java.io.FileOutputStream
 
 
@@ -82,6 +80,9 @@ class MainActivity : AppCompatActivity() {
 
         wifiManager.startScan()
 
+        Toast.makeText(this@MainActivity,
+                "Analizando y enviando datos...", Toast.LENGTH_LONG).show()
+
         Handler().postDelayed({pararEscaneo()}, 8000)
     }
 
@@ -92,6 +93,9 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(broadcastReceiver)
 
         Log.d("TESTING", "Se para el escaneo, se han detectado:"+listaWifis.toString())
+
+        Toast.makeText(this@MainActivity,
+                "Analizando y enviando datos...", Toast.LENGTH_LONG).show()
 
         // Guardamos los datos obtenidos en un fichero
         guardarDatos()
@@ -133,7 +137,7 @@ class MainActivity : AppCompatActivity() {
             osw.write("$aulaSeleccionada,")
             osw.write("$comentario,")
             osw.write(wifi.toString()+",")
-            osw.write("distanciaCalculada:"+calcularDistancia(wifi.level.toDouble(), wifi.frequency.toDouble()))
+            osw.write("distanciaCalculada: "+calcularDistancia(wifi.level.toDouble(), wifi.frequency.toDouble()))
             osw.write("\n")
         }
 
